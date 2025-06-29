@@ -6,4 +6,30 @@ body {
 
 #root {
   min-height: 100vh;
+}
+
+@media (max-width: 900px) {
+  h2 {
+    font-size: 2.2rem !important;
+  }
+  p {
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+  h2 {
+    font-size: 1.3rem !important;
+    letter-spacing: 0 !important;
+  }
+  p {
+    font-size: 0.85rem !important;
+  }
+  #root {
+    min-height: 100vh;
+    padding: 0 !important;
+  }
 } 

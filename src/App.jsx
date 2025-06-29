@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import uploadWhite from './assets/uploadwhite.png';
 import uploaddark from './assets/uploaddark.png';
+import darkLogo from './assets/darksidelogo.png';
+import lightLogo from './assets/lightsidelogo.png';
+import imgIcon from './assets/img.png';
 import { FaMoon, FaSun, FaFileImage } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const DARK_COLOR = '#0b1531';
 const LIGHT_COLOR = '#ffffff';
@@ -18,6 +22,10 @@ export default function App() {
   const [isConverting, setIsConverting] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef();
+  const [splash, setSplash] = useState({ show: false, x: 0, y: 0, toDark: false });
+  const headerRef = useRef();
+  const themeBtnRef = useRef();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -32,6 +40,61 @@ export default function App() {
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropdownOpen]);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Splash animation handler
+  const handleThemeToggle = () => {
+    if (!themeBtnRef.current) {
+      setDarkMode(dm => !dm);
+      return;
+    }
+    const btnRect = themeBtnRef.current.getBoundingClientRect();
+    const rootRect = document.body.getBoundingClientRect();
+    // Center of the button relative to viewport
+    const x = btnRect.left + btnRect.width / 2 - rootRect.left;
+    const y = btnRect.top + btnRect.height / 2 - rootRect.top;
+    setSplash({ show: true, x, y, toDark: !darkMode });
+  };
+
+  // Splash component
+  const Splash = ({ x, y, toDark, onComplete }) => {
+    // Calculate max radius needed to cover the screen
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const maxRadius = Math.sqrt(vw * vw + vh * vh);
+    return (
+      <motion.div
+        initial={{
+          scale: 0,
+          opacity: 0.7,
+          background: toDark ? '#0b1531' : '#fff',
+        }}
+        animate={{
+          scale: maxRadius / 50, // 50 is the initial size
+          opacity: 1,
+          background: toDark ? '#0b1531' : '#fff',
+        }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+        style={{
+          position: 'fixed',
+          left: x - 50,
+          top: y - 50,
+          width: 100,
+          height: 100,
+          borderRadius: '50%',
+          zIndex: 9999,
+          pointerEvents: 'none',
+        }}
+        onAnimationComplete={onComplete}
+      />
+    );
+  };
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -74,12 +137,31 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: darkMode ? DARK_COLOR : LIGHT_COLOR, color: darkMode ? '#fff' : '#222', transition: 'background 0.3s', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem 2.5rem 0.5rem 2.5rem', minHeight: 80 }}>
-        <div style={{ fontWeight: 700, fontSize: '2rem', letterSpacing: '2px', color: darkMode ? '#fff' : '#0b1531' }}>KONVO</div>
+    <div style={{ minHeight: '100vh', background: darkMode ? DARK_COLOR : LIGHT_COLOR, color: darkMode ? '#fff' : '#222', transition: 'background 0.3s', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+      <AnimatePresence>
+        {splash.show && (
+          <Splash
+            x={splash.x}
+            y={splash.y}
+            toDark={splash.toDark}
+            onComplete={() => {
+              setSplash(s => {
+                if (s.toDark !== darkMode) setDarkMode(s.toDark);
+                return { ...s, show: false };
+              });
+            }}
+          />
+        )}
+      </AnimatePresence>
+      <header ref={headerRef} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem 2.5rem 0.5rem 2.5rem', minHeight: 80 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <img src={darkMode ? darkLogo : lightLogo} alt="KONVO Logo" style={{ width: 43, height: 43, objectFit: 'contain', display: 'block' }} />
+          <div style={{ fontWeight: 700, fontSize: '2rem', letterSpacing: '2px', color: darkMode ? '#fff' : '#0b1531', lineHeight: 1, display: 'flex', alignItems: 'center' }}>KONVO</div>
+        </div>
         <button
           aria-label="Toggle theme"
-          onClick={() => setDarkMode(dm => !dm)}
+          ref={themeBtnRef}
+          onClick={handleThemeToggle}
           style={{
             border: 'none',
             background: darkMode ? '#232b3e' : '#e0e4ef',
@@ -102,11 +184,23 @@ export default function App() {
       </header>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', minHeight: 0, marginTop: '0' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '3.2rem', fontWeight: 600, margin: 0, color: darkMode ? '#fff' : '#0b1531', letterSpacing: '-1px', lineHeight: 1.1 }}>Free Unlimited Image Converter</h2>
-          <p style={{ maxWidth: 800, margin: '2.2rem auto 0', fontSize: '0.9rem', color: darkMode ? '#b0b8c9' : '#333', lineHeight: 1.5, fontWeight: 400 }}>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+            style={{ fontSize: '3.2rem', fontWeight: 600, margin: 0, color: darkMode ? '#fff' : '#0b1531', letterSpacing: '-1px', lineHeight: 1.1 }}
+          >
+            Free Unlimited Image Converter
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1], delay: 0.15 }}
+            style={{ maxWidth: 800, margin: '2.2rem auto 0', fontSize: '0.9rem', color: darkMode ? '#b0b8c9' : '#333', lineHeight: 1.5, fontWeight: 400 }}
+          >
             Introducing KONVO – your go-to online tool for unlimited and free image conversion, all<br/> processed <span style={{ color: '#4ea1f7', textDecoration: 'underline' }}>locally on your device for enhanced privacy and security</span>.
             Easily convert images without any restrictions. Start converting now and streamline your content effortlessly with KONVO!
-          </p>
+          </motion.p>
         </div>
         <section
           style={{
@@ -146,24 +240,24 @@ export default function App() {
             <>
               <div style={{
                 margin: '1.5rem 0 0 0',
-                display: 'flex',
+                display: windowWidth < 600 ? 'block' : 'flex',
                 alignItems: 'center',
                 background: 'none',
                 border: `1px solid ${darkMode ? '#232b3e' : '#bbb'}`,
                 borderRadius: 16,
-                padding: '0.7rem 1.2rem',
+                padding: windowWidth < 600 ? '0.7rem 0.5rem' : '0.7rem 1.2rem',
                 width: '100%',
                 maxWidth: 800,
-                minWidth: 700,
+                minWidth: windowWidth < 600 ? 'unset' : 700,
                 boxSizing: 'border-box',
                 boxShadow: 'none',
                 fontSize: '0.9rem',
                 justifyContent: 'space-between',
+                flexDirection: windowWidth < 600 ? 'column' : 'row',
+                gap: windowWidth < 600 ? 10 : 0,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: 28, color: '#ff9800', flexShrink: 0 }}>
-                    <FaFileImage />
-                  </span>
+                  <img src={imgIcon} alt="File" style={{ width: 28, height: 28, flexShrink: 0, display: 'block' }} />
                   <span style={{ fontWeight: 600, fontSize: '0.9rem', color: darkMode ? '#fff' : '#222', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200, display: 'flex', alignItems: 'center', gap: 6 }}>
                     {selectedFile.name}
                     <span style={{ color: darkMode ? '#b0b8c9' : '#666', fontWeight: 400, fontSize: '0.9rem', marginLeft: 8, whiteSpace: 'nowrap' }}>
@@ -260,7 +354,7 @@ export default function App() {
                   ✕
                 </button>
               </div>
-              <div style={{ width: '100%', maxWidth: 700, display: 'flex', justifyContent: 'flex-start', marginTop: 10, marginLeft: 1200 }}>
+              <div style={{ width: '100%', maxWidth: 700, display: 'flex', flexDirection: windowWidth < 600 ? 'column' : 'row', justifyContent: windowWidth < 600 ? 'center' : 'flex-start', alignItems: windowWidth < 600 ? 'stretch' : 'center', marginTop: 10, marginLeft: windowWidth < 600 ? 0 : 1200, gap: windowWidth < 600 ? 10 : 0 }}>
                 <button
                   style={{
                     padding: '0.7rem 2.2rem',
