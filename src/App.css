@@ -1,0 +1,105 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.app--dark {
+  background: #0b1531;
+  color: #fff;
+}
+
+.app--light {
+  background: #ffffff;
+  color: #222;
+}
+
+.app__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.app__hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.app__title {
+  font-size: 3.2rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.app__description {
+  max-width: 800px;
+  margin: 2.2rem auto 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.app__highlight {
+  color: #4ea1f7;
+  text-decoration: underline;
+}
+
+.app__converter-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+/* Theme-specific styles */
+.app--dark .app__title {
+  color: #fff;
+}
+
+.app--light .app__title {
+  color: #0b1531;
+}
+
+.app--dark .app__description {
+  color: #b0b8c9;
+}
+
+.app--light .app__description {
+  color: #333;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .app__title {
+    font-size: 2.2rem !important;
+  }
+  
+  .app__description {
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .app__title {
+    font-size: 1.3rem !important;
+    letter-spacing: 0 !important;
+  }
+  
+  .app__description {
+    font-size: 0.85rem !important;
+  }
+  
+  .app__converter-container {
+    padding: 0 1rem;
+  }
+} 
