@@ -1,64 +1,181 @@
-# KONVO - Free Unlimited Image Converter
+# KONVO - Image Converter
 
-KONVO is a modern, privacy-friendly web app for converting images between popular formats, all processed locally in your browser. No uploads, no limits, no privacy worries!
+A modern, privacy-focused image conversion tool built with React, TypeScript, and Vite. Convert images locally on your device without uploading to external servers.
 
-## Features
-- **Convert images** between formats: JPG, JPEG, PNG, GIF, BMP, WEBP, ICO, TIF, TIFF
-- **Modern, responsive UI** with dark and light themes
-- **Drag-and-drop** or click to upload
-- **Custom two-column format dropdown** for easy selection
-- **No server-side processing** – all conversion happens in your browser
-- **Download** the converted image instantly
+## ✨ Features
 
-## Demo
-![KONVO Screenshot](./screenshot.png)
+- **Local Processing**: All conversions happen locally on your device
+- **Multiple Formats**: Support for JPG, PNG, GIF, BMP, WebP, ICO, TIFF
+- **Dark/Light Theme**: Beautiful theme switching with smooth animations
+- **Drag & Drop**: Intuitive file upload interface
+- **Responsive Design**: Works perfectly on desktop and mobile
+- **Type Safety**: Built with TypeScript for better development experience
 
-## Tech Stack
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- Modern JavaScript (ES6+)
-- CSS (custom, no frameworks)
+## 🚀 Getting Started
 
-## Getting Started
+### Prerequisites
 
-### 1. Clone the repo
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/konvo.git
+git clone <repository-url>
 cd konvo
 ```
 
-### 2. Install dependencies
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-### 3. Run the app locally
+3. Start the development server:
 ```bash
 npm run dev
 ```
-Visit [http://localhost:5173](http://localhost:5173) in your browser.
 
-## Usage
-1. Click or drag-and-drop an image file onto the upload area.
-2. Select the output format from the custom dropdown.
-3. Click **Convert Now**.
-4. The converted image will be downloaded automatically.
+4. Open your browser and navigate to `http://localhost:3000`
 
-## Supported Formats
-- Input: JPG, JPEG, PNG, GIF, BMP, WEBP, ICO, TIF, TIFF
-- Output: JPG, JPEG, PNG, GIF, BMP, WEBP, ICO, TIF, TIFF
+## 📁 Project Structure
 
-## Contributing
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Header/         # Application header with theme toggle
+│   ├── FileUpload/     # File upload and drag-drop interface
+│   ├── FileConverter/  # File conversion interface
+│   └── SplashAnimation/# Theme transition animation
+├── hooks/              # Custom React hooks
+│   └── useTheme.ts     # Theme management hook
+├── utils/              # Utility functions
+│   └── fileUtils.ts    # File handling utilities
+├── types/              # TypeScript type definitions
+│   └── index.ts        # Application types
+├── constants/          # Application constants
+│   └── index.ts        # Theme, formats, and configuration
+├── styles/             # Global styles and CSS modules
+├── App.tsx             # Main application component
+├── main.tsx            # Application entry point
+└── index.css           # Global styles
+```
 
-1. Fork the repo
-2. Create your feature branch (`git checkout -b feature/YourFeature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin feature/YourFeature`)
-5. Open a pull request
+## 🛠️ Development
 
-## License
-[MIT](LICENSE)
+### Available Scripts
 
----
-**KONVO** – Convert images instantly, privately, and for free. 
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix ESLint errors
+- `npm run format` - Format code with Prettier
+- `npm run type-check` - Run TypeScript type checking
+
+### Code Quality
+
+This project follows strict coding standards:
+
+- **TypeScript**: Full type safety with strict configuration
+- **ESLint**: Code linting with React and TypeScript rules
+- **Prettier**: Consistent code formatting
+- **Component Structure**: Modular, reusable components
+- **CSS Architecture**: BEM methodology for CSS classes
+- **Error Handling**: Comprehensive error handling and validation
+
+### Best Practices Implemented
+
+1. **Component Architecture**
+   - Single Responsibility Principle
+   - Props interface definitions
+   - Proper component composition
+
+2. **State Management**
+   - Custom hooks for reusable logic
+   - Local state for component-specific data
+   - Proper state updates and side effects
+
+3. **Type Safety**
+   - Strict TypeScript configuration
+   - Interface definitions for all data structures
+   - Proper type annotations
+
+4. **Performance**
+   - React.memo for expensive components
+   - Proper dependency arrays in useEffect
+   - Optimized re-renders
+
+5. **Accessibility**
+   - ARIA labels and roles
+   - Keyboard navigation support
+   - Screen reader compatibility
+
+6. **Error Handling**
+   - File validation
+   - Conversion error handling
+   - User-friendly error messages
+
+7. **Responsive Design**
+   - Mobile-first approach
+   - Breakpoint-based styling
+   - Flexible layouts
+
+## 🎨 Styling
+
+The project uses a combination of:
+- **CSS Modules**: Component-scoped styles
+- **BEM Methodology**: Consistent class naming
+- **CSS Custom Properties**: Theme variables
+- **Responsive Design**: Mobile-first approach
+
+## 🔧 Configuration
+
+### TypeScript
+- Strict mode enabled
+- Path mapping for clean imports
+- Proper module resolution
+
+### ESLint
+- React and TypeScript rules
+- Prettier integration
+- Custom rule configurations
+
+### Vite
+- Fast development server
+- Optimized production builds
+- Plugin configuration
+
+## 📱 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow the existing code style
+- Add TypeScript types for new features
+- Write meaningful commit messages
+- Test your changes thoroughly
+- Update documentation as needed
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- React team for the amazing framework
+- Vite team for the fast build tool
+- Framer Motion for smooth animations
+- React Icons for the icon library 
