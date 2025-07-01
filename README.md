@@ -1,5 +1,11 @@
 # KONVO - Image Converter
 
+![KONVO Screenshot](src/assets/screenshot.png)
+*Main interface of the KONVO Image Converter app*
+
+![KONVO Conversion Screenshot](src/assets/screenshot2.png)
+*Image conversion interface with format selection*
+
 A modern, privacy-focused image conversion tool built with React, TypeScript, and Vite. Convert images locally on your device without uploading to external servers.
 
 ## ✨ Features
