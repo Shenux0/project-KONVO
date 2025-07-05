@@ -18,6 +18,10 @@ export const IMAGE_FORMATS: readonly string[] = [
   'jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'ico', 'tif', 'tiff'
 ] as const;
 
+export const AUDIO_FORMATS: readonly string[] = [
+  'mp3', 'wav', 'ogg', 'aac', 'wma', 'flac', 'm4a'
+] as const;
+
 export const BREAKPOINTS = {
   MOBILE: 600,
   TABLET: 900,

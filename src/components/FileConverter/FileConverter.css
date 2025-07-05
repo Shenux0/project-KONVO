@@ -133,10 +133,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.2rem 1.5rem;
+  background: #232b3e;
 }
 
 .file-converter__dropdown-menu--dark {
-  background: #1a2a4a;
+  background: #232b3e !important;
   color: #fff;
   border-color: #232b3e;
 }
