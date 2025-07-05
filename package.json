@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/core": "^0.10.0",
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "framer-motion": "^12.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

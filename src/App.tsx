@@ -4,19 +4,35 @@ import { Header } from '@/components/Header';
 import { SplashAnimation } from '@/components/SplashAnimation';
 import { FileUpload } from '@/components/FileUpload';
 import { FileConverter } from '@/components/FileConverter';
+import { AudioConverter } from '@/components/AudioConverter';
 import { useTheme } from '@/hooks/useTheme';
 import './App.css';
+import { AUDIO_FORMATS, IMAGE_FORMATS } from '@/constants';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileType, setFileType] = useState<'image' | 'audio' | null>(null);
   const { darkMode, splash, toggleTheme, completeSplashAnimation } = useTheme();
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);
+    // Detect file type by MIME
+    if (file.type.startsWith('image/')) {
+      setFileType('image');
+    } else if (file.type.startsWith('audio/')) {
+      setFileType('audio');
+    } else {
+      // fallback: check extension
+      const ext = file.name.split('.').pop()?.toLowerCase();
+      if (ext && IMAGE_FORMATS.includes(ext)) setFileType('image');
+      else if (ext && AUDIO_FORMATS.includes(ext)) setFileType('audio');
+      else setFileType(null);
+    }
   };
 
   const handleRemoveFile = () => {
     setSelectedFile(null);
+    setFileType(null);
   };
 
   return (
@@ -67,11 +83,16 @@ export default function App() {
           />
         ) : (
           <div className="app__converter-container">
-            <FileConverter 
-              file={selectedFile}
-              darkMode={darkMode}
-              onRemoveFile={handleRemoveFile}
-            />
+            {fileType === 'image' && (
+              <FileConverter 
+                file={selectedFile}
+                darkMode={darkMode}
+                onRemoveFile={handleRemoveFile}
+              />
+            )}
+            {fileType === 'audio' && (
+              <AudioConverter file={selectedFile} onRemoveFile={handleRemoveFile} darkMode={darkMode} />
+            )}
           </div>
         )}
       </main>

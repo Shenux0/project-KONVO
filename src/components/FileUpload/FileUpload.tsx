@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { IMAGE_FORMATS } from '@/constants';
+import { IMAGE_FORMATS, AUDIO_FORMATS } from '@/constants';
 import './FileUpload.css';
 
 interface FileUploadProps {
@@ -45,7 +45,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
         type="file"
         className="file-upload__input"
         ref={fileInputRef}
-        accept={IMAGE_FORMATS.map(f => `.${f}`).join(',')}
+        accept={IMAGE_FORMATS.map(f => `.${f}`).concat(AUDIO_FORMATS.map(f => `.${f}`)).join(',')}
         onChange={handleFileChange}
       />
       
@@ -59,7 +59,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
           className="file-upload__icon" 
         />
         <div className="file-upload__text">
-          Click, or drop your image files here
+          Click, or drop your image or audio files here
         </div>
       </label>
     </section>

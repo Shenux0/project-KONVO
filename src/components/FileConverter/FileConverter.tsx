@@ -20,6 +20,7 @@ export const FileConverter: React.FC<FileConverterProps> = ({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [error, setError] = useState<string | null>(null);
+  const [convertedUrl, setConvertedUrl] = useState<string | null>(null);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,13 +58,13 @@ export const FileConverter: React.FC<FileConverterProps> = ({
 
     setIsConverting(true);
     setError(null);
+    setConvertedUrl(null);
 
     try {
       const result = await convertImageFormat(file, outputFormat);
       
       if (result.success && result.url) {
-        const filename = `converted.${outputFormat}`;
-        downloadFile(result.url, filename);
+        setConvertedUrl(result.url);
       } else {
         setError(result.error?.message || 'Conversion failed');
       }
@@ -143,13 +144,24 @@ export const FileConverter: React.FC<FileConverterProps> = ({
       )}
 
       <div className={`file-converter__actions ${isMobile ? 'file-converter__actions--mobile' : ''}`}>
-        <button
-          className={`file-converter__convert-button ${outputFormat ? 'file-converter__convert-button--active' : 'file-converter__convert-button--disabled'}`}
-          onClick={handleConvert}
-          disabled={!outputFormat || isConverting}
-        >
-          {isConverting ? 'Converting...' : 'Convert Now'}
-        </button>
+        {convertedUrl ? (
+          <a
+            href={convertedUrl}
+            download={`converted.${outputFormat}`}
+            className={`file-converter__convert-button file-converter__convert-button--active`}
+            style={{ textAlign: 'center', display: 'inline-block', textDecoration: 'none' }}
+          >
+            Download Converted File
+          </a>
+        ) : (
+          <button
+            className={`file-converter__convert-button ${outputFormat ? 'file-converter__convert-button--active' : 'file-converter__convert-button--disabled'}`}
+            onClick={handleConvert}
+            disabled={!outputFormat || isConverting}
+          >
+            {isConverting ? 'Converting...' : 'Convert Now'}
+          </button>
+        )}
       </div>
     </div>
   );
