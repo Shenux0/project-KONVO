@@ -81,29 +81,37 @@
 
 .file-converter__dropdown-button {
   padding: 0.5rem 1.2rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  min-width: 120px;
-  background: transparent;
-  border: 1px solid;
+  border-radius: 14px;
+  font-size: 1rem;
+  min-width: 140px;
+  background: var(--dropdown-bg, #f7f8fa);
+  border: 1.5px solid var(--dropdown-border, #bbb);
   outline: none;
-  box-shadow: none;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
   appearance: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   position: relative;
+  font-weight: 500;
+  transition: border 0.2s, background 0.2s, color 0.2s;
 }
 
-.file-converter__dropdown-button--dark {
+.file-converter__dropdown-button:hover, .file-converter__dropdown-button:focus {
+  border-color: #4ea1f7;
+  background: #e0e4ef;
+}
+
+[data-theme="dark"] .file-converter__dropdown-button {
+  background: #101a36;
   color: #fff;
-  border-color: #232b3e;
+  border-color: #2a3553;
 }
 
-.file-converter__dropdown-button--light {
-  color: #222;
-  border-color: #bbb;
+[data-theme="dark"] .file-converter__dropdown-button:hover, [data-theme="dark"] .file-converter__dropdown-button:focus {
+  border-color: #4ea1f7;
+  background: #232b3e;
 }
 
 .file-converter__placeholder {
@@ -120,26 +128,65 @@
   align-items: center;
 }
 
+.file-converter__dropdown-toggle-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border-radius: 10px;
+  margin: 8px 8px 18px 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.file-converter__dropdown-tab {
+  flex: 1 1 0;
+  background: transparent;
+  border: none;
+  color: #b0b8c9;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 7px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.file-converter__dropdown-tab--active {
+  background: #4ea1f7;
+  color: #fff;
+}
+
+[data-theme="dark"] .file-converter__dropdown-tab--active {
+  background: #4ea1f7;
+  color: #fff;
+}
+
+.file-converter__dropdown-formats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+  padding: 0 8px 8px 8px;
+}
+
 .file-converter__dropdown-menu {
   position: absolute;
   top: 110%;
   left: 0;
   z-index: 10;
-  border: 1px solid;
-  border-radius: 10px;
-  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);
-  padding: 0.5rem 0.7rem;
-  min-width: 220px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.2rem 1.5rem;
-  background: #232b3e;
+  border: 1.5px solid var(--dropdown-border, #bbb);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  padding: 0.7rem 1rem 1rem 1rem;
+  min-width: 240px;
+  background: var(--dropdown-bg, #fff);
+  transition: background 0.2s, border 0.2s;
 }
 
 .file-converter__dropdown-menu--dark {
   background: #232b3e !important;
   color: #fff;
-  border-color: #232b3e;
+  border-color: #2a3553;
 }
 
 .file-converter__dropdown-menu--light {
@@ -149,26 +196,36 @@
 }
 
 .file-converter__dropdown-item {
-  padding: 0.35rem 0.7rem;
-  border-radius: 6px;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  font-size: 0.95em;
-  transition: background 0.15s;
+  font-size: 1em;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 2px;
 }
 
-.file-converter__dropdown-item--selected {
-  font-weight: 600;
+.file-converter__dropdown-item:hover, .file-converter__dropdown-item:focus {
+  background: #e0e4ef;
+  color: #222;
 }
 
-.file-converter__dropdown-menu--dark .file-converter__dropdown-item--selected {
-  background: #232b3e;
+[data-theme="dark"] .file-converter__dropdown-item:hover, [data-theme="dark"] .file-converter__dropdown-item:focus {
+  background: #2a3553;
   color: #fff;
 }
 
-.file-converter__dropdown-menu--light .file-converter__dropdown-item--selected {
+.file-converter__dropdown-item--selected {
   background: #e0e4ef;
   color: #222;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .file-converter__dropdown-item--selected {
+  background: #2a3553;
+  color: #fff;
+  font-weight: 700;
 }
 
 .file-converter__remove-button {

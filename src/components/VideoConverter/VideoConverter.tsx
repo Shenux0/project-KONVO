@@ -1,28 +1,26 @@
 import { useState, useRef, useEffect } from 'react';
-import { IMAGE_FORMATS, BREAKPOINTS } from '@/constants';
-import { formatFileSize, validateImageFile, convertImageFormat } from '@/utils/fileUtils';
-import type { ImageFormat } from '@/types';
-import './FileConverter.css';
+import { VIDEO_FORMATS, AUDIO_FORMATS } from '@/constants';
+// @ts-ignore
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+import '../FileConverter/FileConverter.css';
 
-interface FileConverterProps {
+interface VideoConverterProps {
   file: File;
-  darkMode: boolean;
   onRemoveFile: () => void;
+  darkMode?: boolean;
 }
 
-export const FileConverter: React.FC<FileConverterProps> = ({ 
-  file, 
-  darkMode, 
-  onRemoveFile 
-}) => {
-  const [outputFormat, setOutputFormat] = useState<ImageFormat | ''>('');
+export const VideoConverter: React.FC<VideoConverterProps> = ({ file, onRemoveFile, darkMode }) => {
+  const [outputFormat, setOutputFormat] = useState<string>('');
+  const [outputType, setOutputType] = useState<'video' | 'audio'>('video');
   const [isConverting, setIsConverting] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
   const [convertedUrl, setConvertedUrl] = useState<string | null>(null);
-  
+  const [error, setError] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const ffmpegRef = useRef<any>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -36,46 +34,60 @@ export const FileConverter: React.FC<FileConverterProps> = ({
         setDropdownOpen(false);
       }
     };
-
     if (dropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropdownOpen]);
 
+  useEffect(() => {
+    setConvertedUrl(null);
+    setError(null);
+    setProgress(0);
+    setOutputFormat('');
+    setOutputType('video');
+  }, [file]);
+
   const handleConvert = async () => {
     if (!outputFormat) return;
-
-    // Validate file
-    const validationError = validateImageFile(file);
-    if (validationError) {
-      setError(validationError.message);
-      return;
-    }
-
     setIsConverting(true);
     setError(null);
+    setProgress(0);
     setConvertedUrl(null);
-
     try {
-      const result = await convertImageFormat(file, outputFormat);
-      
-      if (result.success && result.url) {
-        setConvertedUrl(result.url);
+      if (!ffmpegRef.current) {
+        ffmpegRef.current = createFFmpeg({ 
+          log: true,
+          corePath: '/ffmpeg/ffmpeg-core.js',
+          progress: ({ ratio }: { ratio: number }) => setProgress(ratio)
+        });
+        await ffmpegRef.current.load();
+      }
+      const inputName = file.name;
+      const outputName = inputName.replace(/\.[^.]+$/, '') + '.' + outputFormat;
+      ffmpegRef.current.FS('writeFile', inputName, await fetchFile(file));
+      if (outputType === 'video') {
+        await ffmpegRef.current.run('-i', inputName, outputName);
+        const data = ffmpegRef.current.FS('readFile', outputName);
+        setConvertedUrl(URL.createObjectURL(new Blob([data.buffer], { type: `video/${outputFormat}` })));
       } else {
-        setError(result.error?.message || 'Conversion failed');
+        // Video to audio extraction
+        await ffmpegRef.current.run('-i', inputName, '-vn', outputName);
+        const data = ffmpegRef.current.FS('readFile', outputName);
+        setConvertedUrl(URL.createObjectURL(new Blob([data.buffer], { type: `audio/${outputFormat}` })));
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError('Conversion failed. ' + (err instanceof Error ? err.message : String(err)));
+      console.error('FFmpeg conversion error:', err);
     } finally {
       setIsConverting(false);
     }
   };
 
-  const isMobile = windowWidth < BREAKPOINTS.MOBILE;
+  const isMobile = windowWidth < 600;
+  const formats = outputType === 'video' ? VIDEO_FORMATS : AUDIO_FORMATS;
 
   return (
     <div className="file-converter">
@@ -89,18 +101,17 @@ export const FileConverter: React.FC<FileConverterProps> = ({
           <span className="file-converter__file-name">
             {file.name}
             <span className="file-converter__file-size">
-              ({formatFileSize(file.size)})
+              ({(file.size / 1024 / 1024).toFixed(1)} MB)
             </span>
           </span>
         </div>
-        
         <div className="file-converter__format-selector">
           <span className="file-converter__format-label">Convert to</span>
           <div ref={dropdownRef} className="file-converter__dropdown">
             <button
               type="button"
               onClick={() => setDropdownOpen(open => !open)}
-              className={`file-converter__dropdown-button ${darkMode ? 'file-converter__dropdown-button--dark' : 'file-converter__dropdown-button--light'}`}
+              className={`file-converter__dropdown-button`}
             >
               {outputFormat || <span className="file-converter__placeholder">Select format</span>}
               <span className="file-converter__dropdown-arrow">
@@ -109,24 +120,41 @@ export const FileConverter: React.FC<FileConverterProps> = ({
                 </svg>
               </span>
             </button>
-            
             {dropdownOpen && (
-              <div className={`file-converter__dropdown-menu ${darkMode ? 'file-converter__dropdown-menu--dark' : 'file-converter__dropdown-menu--light'}`}>
-                {IMAGE_FORMATS.map((format) => (
-                  <div
-                    key={format}
-                    onClick={() => { setOutputFormat(format as ImageFormat); setDropdownOpen(false); }}
-                    className={`file-converter__dropdown-item ${outputFormat === format ? 'file-converter__dropdown-item--selected' : ''}`}
-                    onMouseDown={e => e.preventDefault()}
+              <div className={`file-converter__dropdown-menu file-converter__dropdown-menu--${darkMode ? 'dark' : 'light'}`}
+                style={{ minWidth: 220 }}>
+                <div className="file-converter__dropdown-toggle-group">
+                  <button
+                    type="button"
+                    className={`file-converter__dropdown-tab${outputType === 'video' ? ' file-converter__dropdown-tab--active' : ''}`}
+                    onClick={() => setOutputType('video')}
                   >
-                    {format}
-                  </div>
-                ))}
+                    Video
+                  </button>
+                  <button
+                    type="button"
+                    className={`file-converter__dropdown-tab${outputType === 'audio' ? ' file-converter__dropdown-tab--active' : ''}`}
+                    onClick={() => setOutputType('audio')}
+                  >
+                    Audio
+                  </button>
+                </div>
+                <div className="file-converter__dropdown-formats-grid">
+                  {formats.map((format) => (
+                    <div
+                      key={format}
+                      onClick={() => { setOutputFormat(format); setDropdownOpen(false); }}
+                      className={`file-converter__dropdown-item ${outputFormat === format ? 'file-converter__dropdown-item--selected' : ''}`}
+                      onMouseDown={e => e.preventDefault()}
+                    >
+                      {format}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
         </div>
-        
         <button
           onClick={onRemoveFile}
           className="file-converter__remove-button"
@@ -136,13 +164,11 @@ export const FileConverter: React.FC<FileConverterProps> = ({
           ✕
         </button>
       </div>
-
       {error && (
         <div className="file-converter__error">
           {error}
         </div>
       )}
-
       <div className={`file-converter__actions ${isMobile ? 'file-converter__actions--mobile' : ''}`}>
         {convertedUrl ? (
           <a
@@ -159,7 +185,7 @@ export const FileConverter: React.FC<FileConverterProps> = ({
             onClick={handleConvert}
             disabled={!outputFormat || isConverting}
           >
-            {isConverting ? 'Converting...' : 'Convert Now'}
+            {isConverting ? `Converting... (${Math.round(progress * 100)}%)` : 'Convert Now'}
           </button>
         )}
       </div>

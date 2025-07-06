@@ -50,7 +50,7 @@
 
 .app__highlight {
   color: #4ea1f7;
-  text-decoration: underline;
+  font-weight: bold;
 }
 
 .app__converter-container {
@@ -102,4 +102,45 @@
   .app__converter-container {
     padding: 0 1rem;
   }
+}
+
+.app__footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 1rem 0;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #b0b8c9;
+  position: relative;
+}
+
+.github-btn img {
+  vertical-align: middle;
+  transition: transform 0.2s;
+}
+
+.github-btn:hover img {
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.github-btn-corner {
+  position: fixed;
+  right: 2.2rem;
+  bottom: 1.5rem;
+  z-index: 100;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.github-btn-corner img {
+  vertical-align: middle;
+  transition: transform 0.2s;
+}
+
+.github-btn-corner:hover img {
+  transform: scale(1.1) rotate(-8deg);
 } 
