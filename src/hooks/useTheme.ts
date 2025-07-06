@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import type { SplashAnimation } from '@/types';
 
 export const useTheme = () => {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [splash, setSplash] = useState<SplashAnimation>({ 
     show: false, 
     x: 0, 

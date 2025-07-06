@@ -22,6 +22,10 @@ export const AUDIO_FORMATS: readonly string[] = [
   'mp3', 'wav', 'ogg', 'aac', 'wma', 'flac', 'm4a'
 ] as const;
 
+export const VIDEO_FORMATS: readonly string[] = [
+  'mp4', 'm4v', 'webm', 'ogv', 'mkv', 'avi', 'mov', 'flv', 'h264', '264'
+] as const;
+
 export const BREAKPOINTS = {
   MOBILE: 600,
   TABLET: 900,
