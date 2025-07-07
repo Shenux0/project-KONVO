@@ -58,4 +58,11 @@
 
 .file-upload--light .file-upload__text {
   color: #222;
+}
+
+.file-upload--drag-active {
+  border-color: #4ea1f7 !important;
+  box-shadow: 0 0 0 4px rgba(78, 161, 247, 0.15);
+  transform: scale(1.025);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
 } 

@@ -1,21 +1,27 @@
-# KONVO - Image Converter
+# KONVO - Universal File Converter
 
 ![KONVO Screenshot](src/assets/screenshot.png)
-*Main interface of the KONVO Image Converter app*
+*Main interface of the KONVO Universal File Converter app*
 
 ![KONVO Conversion Screenshot](src/assets/screenshot2.png)
-*Image conversion interface with format selection*
+*Conversion interface with format selection*
 
-A modern, privacy-focused image conversion tool built with React, TypeScript, and Vite. Convert images locally on your device without uploading to external servers.
+A modern, privacy-focused multimedia conversion tool built with React, TypeScript, and Vite. Convert images, audio, and video files locally on your device—no uploads, no privacy risks.
 
 ## ✨ Features
 
-- **Local Processing**: All conversions happen locally on your device
-- **Multiple Formats**: Support for JPG, PNG, GIF, BMP, WebP, ICO, TIFF
-- **Dark/Light Theme**: Beautiful theme switching with smooth animations
+- **Universal Conversion**: Convert images, audio, and video files between popular formats
+- **Local Processing**: All conversions happen locally in your browser for maximum privacy
+- **Supported Formats**:
+  - **Images**: JPG, JPEG, PNG, GIF, BMP, WebP, ICO, TIF, TIFF
+  - **Audio**: MP3, WAV, OGG, AAC, WMA, FLAC, M4A
+  - **Video**: MP4, M4V, WEBM, OGV, MKV, AVI, MOV, FLV, H264, 264
+- **Extract Audio from Video**: Convert video files to audio formats
+- **Dark/Light Theme**: Beautiful theme switching with animated transitions
 - **Drag & Drop**: Intuitive file upload interface
 - **Responsive Design**: Works perfectly on desktop and mobile
-- **Type Safety**: Built with TypeScript for better development experience
+- **Type Safety**: Built with TypeScript for robust development
+- **Modern UI/UX**: Smooth animations, accessible controls, and a clean interface
 
 ## 🚀 Getting Started
 
@@ -51,7 +57,9 @@ src/
 ├── components/          # Reusable UI components
 │   ├── Header/         # Application header with theme toggle
 │   ├── FileUpload/     # File upload and drag-drop interface
-│   ├── FileConverter/  # File conversion interface
+│   ├── FileConverter/  # Image conversion interface
+│   ├── AudioConverter/ # Audio conversion interface
+│   ├── VideoConverter/ # Video conversion interface
 │   └── SplashAnimation/# Theme transition animation
 ├── hooks/              # Custom React hooks
 │   └── useTheme.ts     # Theme management hook
@@ -61,10 +69,9 @@ src/
 │   └── index.ts        # Application types
 ├── constants/          # Application constants
 │   └── index.ts        # Theme, formats, and configuration
-├── styles/             # Global styles and CSS modules
 ├── App.tsx             # Main application component
 ├── main.tsx            # Application entry point
-└── index.css           # Global styles
+├── index.css           # Global styles
 ```
 
 ## 🛠️ Development
@@ -152,20 +159,6 @@ The project uses a combination of:
 - Optimized production builds
 - Plugin configuration
 
-## 📱 Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ### Development Guidelines
 
@@ -179,9 +172,4 @@ The project uses a combination of:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
 
-- React team for the amazing framework
-- Vite team for the fast build tool
-- Framer Motion for smooth animations
-- React Icons for the icon library 

@@ -2,6 +2,16 @@
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fileConverterEntrance 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes fileConverterEntrance {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .file-converter__file-info {
@@ -181,6 +191,8 @@
   min-width: 240px;
   background: var(--dropdown-bg, #fff);
   transition: background 0.2s, border 0.2s;
+  max-height: 320px;
+  overflow-y: auto;
 }
 
 .file-converter__dropdown-menu--dark {
@@ -234,6 +246,11 @@
   font-size: 14px;
   cursor: pointer;
   margin-left: 12px;
+}
+
+.file-converter__remove-button:hover {
+  color: #e74c3c !important;
+  transition: color 0.2s;
 }
 
 .file-converter__error {
