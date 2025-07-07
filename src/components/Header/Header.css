@@ -4,6 +4,16 @@
   justify-content: space-between;
   padding: 1.5rem 2.5rem 0.5rem 2.5rem;
   min-height: 80px;
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: headerEntrance 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes headerEntrance {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header__logo {
@@ -26,6 +36,26 @@
   line-height: 1;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header__logo-text::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #4ea1f7 0%, #232b3e 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.header__logo-text:hover::after {
+  transform: scaleX(1);
 }
 
 .header__theme-button {

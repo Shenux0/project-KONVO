@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { IMAGE_FORMATS, AUDIO_FORMATS, VIDEO_FORMATS } from '@/constants';
 import './FileUpload.css';
 
@@ -9,6 +9,7 @@ interface FileUploadProps {
 
 export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragActive, setIsDragActive] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -20,6 +21,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
+    setIsDragActive(false);
     const file = e.dataTransfer.files?.[0];
     if (file) {
       onFileSelect(file);
@@ -28,6 +30,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
+    setIsDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    setIsDragActive(false);
   };
 
   // const handleClick = () => {
@@ -36,9 +43,10 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
 
   return (
     <section
-      className={`file-upload ${darkMode ? 'file-upload--dark' : 'file-upload--light'}`}
+      className={`file-upload ${darkMode ? 'file-upload--dark' : 'file-upload--light'}${isDragActive ? ' file-upload--drag-active' : ''}`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
     >
       <input
         id="file-input"

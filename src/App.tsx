@@ -106,11 +106,11 @@ export default function App() {
       <footer className="app__footer">
         <span>© 2025 KONVO. All rights reserved.</span>
         <a
-          href="https://github.com/Shenux0/project-KONVO"
+          href="https://github.com/Shenux0"
           target="_blank"
           rel="noopener noreferrer"
           className="github-btn-corner"
-          aria-label="GitHub Repository"
+          aria-label="GitHub Profile"
         >
           <img src={darkMode ? Githubdarkside : GithubLightside} alt="GitHub" height={28} />
         </a>
