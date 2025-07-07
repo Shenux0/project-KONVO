@@ -33,7 +33,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
     setIsDragActive(true);
   };
 
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = () => {
     setIsDragActive(false);
   };
 
