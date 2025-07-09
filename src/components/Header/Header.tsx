@@ -11,7 +11,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, onThemeToggle }) => {
     <header className="header">
       <div className="header__logo">
         <img 
-          src={darkMode ? '/src/assets/darksidelogo.png' : '/src/assets/lightsidelogo.png'} 
+          src={darkMode ? '/darksidelogo.png' : '/lightsidelogo.png'} 
           alt="KONVO Logo" 
           className="header__logo-image" 
         />

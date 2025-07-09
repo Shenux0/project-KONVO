@@ -112,7 +112,7 @@ export default function App() {
           className="github-btn-corner"
           aria-label="GitHub Profile"
         >
-          <img src={darkMode ? Githubdarkside : GithubLightside} alt="GitHub" height={28} />
+          <img src={darkMode ? "/Githubdarkside.png" : "/GithubLightside.png"} alt="GitHub" height={28} />
         </a>
       </footer>
     </div>
