@@ -9,8 +9,6 @@ import { VideoConverter } from '@/components/VideoConverter';
 import { useTheme } from '@/hooks/useTheme';
 import './App.css';
 import { AUDIO_FORMATS, IMAGE_FORMATS, VIDEO_FORMATS } from '@/constants';
-import Githubdarkside from '@/assets/Githubdarkside.png';
-import GithubLightside from '@/assets/GithubLightside.png';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
