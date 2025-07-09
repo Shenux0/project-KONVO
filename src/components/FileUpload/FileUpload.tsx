@@ -66,7 +66,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ darkMode, onFileSelect }
         className="file-upload__label"
       >
         <img 
-          src={darkMode ? '/src/assets/uploadwhite.png' : '/src/assets/uploaddark.png'} 
+          src={darkMode ? '/uploadwhite.png' : '/uploaddark.png'} 
           alt="Upload" 
           className="file-upload__icon" 
         />

@@ -84,7 +84,7 @@ export const AudioConverter: React.FC<AudioConverterProps> = ({ file, onRemoveFi
       <div className={`file-converter__file-info ${isMobile ? 'file-converter__file-info--mobile' : ''}`}>
         <div className="file-converter__file-details">
           <img 
-            src="/src/assets/img.png" 
+            src="/img.png" 
             alt="File" 
             className="file-converter__file-icon" 
           />
