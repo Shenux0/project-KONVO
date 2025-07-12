@@ -1,5 +1,5 @@
 # KONVO - Universal File Converter
-aa
+
 ![KONVO Screenshot](src/assets/screenshot.png)
 *Main interface of the KONVO Universal File Converter app*
 
